@@ -17,6 +17,7 @@
                 A00000000000000000000007 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5521C629DF0F1F9D84E634 /* HomeView.swift */; };
                 A00000000000000000000008 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */; };
                 A00000000000000000000009 /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659E29552A2B1A1B08C85330 /* WebViewContainer.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +173,7 @@
                         );
                         runOnlyForDeploymentPostprocessing = 0;
                 };
+
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
