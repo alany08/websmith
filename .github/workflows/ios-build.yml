@@ -11,7 +11,9 @@ jobs:
       - name: Build
         run: |
           xcodebuild -project Websmith.xcodeproj -scheme Websmith -configuration Release -sdk iphoneos -archivePath build/Websmith.xcarchive CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive
-          xcodebuild -exportArchive -archivePath build/Websmith.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build
+          mkdir -p build/Payload
+          cp -R build/Websmith.xcarchive/Products/Applications/Websmith.app build/Payload/
+          cd build && zip -r Websmith.ipa Payload
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:

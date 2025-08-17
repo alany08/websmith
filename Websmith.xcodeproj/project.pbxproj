@@ -7,7 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55521E67FB9D99D28BBCF691 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB8C5CD97ED357D0B4AAF53 /* Foundation.framework */; };
+                55521E67FB9D99D28BBCF691 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB8C5CD97ED357D0B4AAF53 /* Foundation.framework */; };
+                A00000000000000000000001 /* WebsmithApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */; };
+                A00000000000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */; };
+                A00000000000000000000003 /* ConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */; };
+                A00000000000000000000004 /* OrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672AE55F1EFB00699285017B /* OrientationManager.swift */; };
+                A00000000000000000000005 /* WebsiteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */; };
+                A00000000000000000000006 /* EditWebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404EB8F536823F8D56B14159 /* EditWebsiteView.swift */; };
+                A00000000000000000000007 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5521C629DF0F1F9D84E634 /* HomeView.swift */; };
+                A00000000000000000000008 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */; };
+                A00000000000000000000009 /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659E29552A2B1A1B08C85330 /* WebViewContainer.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,13 +157,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2BCCF6121F2406921D4E1617 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                2BCCF6121F2406921D4E1617 /* Sources */ = {
+                        isa = PBXSourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                A00000000000000000000001 /* WebsmithApp.swift in Sources */,
+                                A00000000000000000000002 /* AppDelegate.swift in Sources */,
+                                A00000000000000000000003 /* ConfigurationStore.swift in Sources */,
+                                A00000000000000000000004 /* OrientationManager.swift in Sources */,
+                                A00000000000000000000005 /* WebsiteConfiguration.swift in Sources */,
+                                A00000000000000000000006 /* EditWebsiteView.swift in Sources */,
+                                A00000000000000000000007 /* HomeView.swift in Sources */,
+                                A00000000000000000000008 /* WebBrowserView.swift in Sources */,
+                                A00000000000000000000009 /* WebViewContainer.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -165,13 +185,14 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				INFOPLIST_FILE = WebsmithApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
+                                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                                SDKROOT = iphoneos;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                VALIDATE_PRODUCT = YES;
+                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                        };
+                        name = Release;
+                };
 		16E9D1FA8753939C78B7267A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -234,12 +255,13 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				INFOPLIST_FILE = WebsmithApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
+                                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                                SDKROOT = iphoneos;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                        };
+                        name = Debug;
+                };
 		D49C23EC5F749D3D9F74E0C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
