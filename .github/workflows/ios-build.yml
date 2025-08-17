@@ -1,0 +1,21 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          xcodebuild -project Websmith.xcodeproj -scheme Websmith -configuration Release -sdk iphoneos -archivePath build/Websmith.xcarchive CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive
+          xcodebuild -exportArchive -archivePath build/Websmith.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Websmith
+          path: build/Websmith.ipa
