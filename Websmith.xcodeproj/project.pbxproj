@@ -1,0 +1,348 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+                55521E67FB9D99D28BBCF691 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB8C5CD97ED357D0B4AAF53 /* Foundation.framework */; };
+                A00000000000000000000001 /* WebsmithApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */; };
+                A00000000000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */; };
+                A00000000000000000000003 /* ConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */; };
+                A00000000000000000000004 /* OrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672AE55F1EFB00699285017B /* OrientationManager.swift */; };
+                A00000000000000000000005 /* WebsiteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */; };
+                A00000000000000000000006 /* EditWebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404EB8F536823F8D56B14159 /* EditWebsiteView.swift */; };
+                A00000000000000000000007 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5521C629DF0F1F9D84E634 /* HomeView.swift */; };
+                A00000000000000000000008 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */; };
+                A00000000000000000000009 /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659E29552A2B1A1B08C85330 /* WebViewContainer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebsmithApp.swift; path = WebsmithApp/WebsmithApp.swift; sourceTree = "<group>"; };
+		404EB8F536823F8D56B14159 /* EditWebsiteView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EditWebsiteView.swift; path = WebsmithApp/Views/EditWebsiteView.swift; sourceTree = "<group>"; };
+		4A5521C629DF0F1F9D84E634 /* HomeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = WebsmithApp/Views/HomeView.swift; sourceTree = "<group>"; };
+		517206C30C549BBD3725DA7C /* Websmith.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Websmith.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6124A3FAEB9A4F2E84CE2B2F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebsmithApp/Info.plist; sourceTree = "<group>"; };
+		659E29552A2B1A1B08C85330 /* WebViewContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebViewContainer.swift; path = WebsmithApp/Views/WebViewContainer.swift; sourceTree = "<group>"; };
+		672AE55F1EFB00699285017B /* OrientationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrientationManager.swift; path = WebsmithApp/Models/OrientationManager.swift; sourceTree = "<group>"; };
+		6EB8C5CD97ED357D0B4AAF53 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebBrowserView.swift; path = WebsmithApp/Views/WebBrowserView.swift; sourceTree = "<group>"; };
+		8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConfigurationStore.swift; path = WebsmithApp/Models/ConfigurationStore.swift; sourceTree = "<group>"; };
+		C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebsiteConfiguration.swift; path = WebsmithApp/Models/WebsiteConfiguration.swift; sourceTree = "<group>"; };
+		FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = WebsmithApp/AppDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3BC717825BC674D476FB367D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55521E67FB9D99D28BBCF691 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3EC87C52E2B21B968D892CB0 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6EB8C5CD97ED357D0B4AAF53 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		A2963F887AE9F947C674645E /* WebsmithApp */ = {
+			isa = PBXGroup;
+			children = (
+				FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */,
+				8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */,
+				672AE55F1EFB00699285017B /* OrientationManager.swift */,
+				C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */,
+				404EB8F536823F8D56B14159 /* EditWebsiteView.swift */,
+				4A5521C629DF0F1F9D84E634 /* HomeView.swift */,
+				8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */,
+				659E29552A2B1A1B08C85330 /* WebViewContainer.swift */,
+				11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */,
+				6124A3FAEB9A4F2E84CE2B2F /* Info.plist */,
+			);
+			name = WebsmithApp;
+			sourceTree = "<group>";
+		};
+		CD276F534338B081DC78672E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3EC87C52E2B21B968D892CB0 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E6BBAEB8446944116A47CF25 = {
+			isa = PBXGroup;
+			children = (
+				E81BDAF3C7926A09A9263EEC /* Products */,
+				CD276F534338B081DC78672E /* Frameworks */,
+				A2963F887AE9F947C674645E /* WebsmithApp */,
+			);
+			sourceTree = "<group>";
+		};
+		E81BDAF3C7926A09A9263EEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				517206C30C549BBD3725DA7C /* Websmith.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DC91573ACFDB38383334F589 /* Websmith */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB9844A34D73CF8616B93873 /* Build configuration list for PBXNativeTarget "Websmith" */;
+			buildPhases = (
+				2BCCF6121F2406921D4E1617 /* Sources */,
+				3BC717825BC674D476FB367D /* Frameworks */,
+				C033767EA1E7009C3C8C0754 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Websmith;
+			productName = Websmith;
+			productReference = 517206C30C549BBD3725DA7C /* Websmith.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C6DF0DE26DCECAEBA37ACFC7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 371D30430BB5B4E0053F5806 /* Build configuration list for PBXProject "Websmith" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E6BBAEB8446944116A47CF25;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E81BDAF3C7926A09A9263EEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DC91573ACFDB38383334F589 /* Websmith */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C033767EA1E7009C3C8C0754 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+                2BCCF6121F2406921D4E1617 /* Sources */ = {
+                        isa = PBXSourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                A00000000000000000000001 /* WebsmithApp.swift in Sources */,
+                                A00000000000000000000002 /* AppDelegate.swift in Sources */,
+                                A00000000000000000000003 /* ConfigurationStore.swift in Sources */,
+                                A00000000000000000000004 /* OrientationManager.swift in Sources */,
+                                A00000000000000000000005 /* WebsiteConfiguration.swift in Sources */,
+                                A00000000000000000000006 /* EditWebsiteView.swift in Sources */,
+                                A00000000000000000000007 /* HomeView.swift in Sources */,
+                                A00000000000000000000008 /* WebBrowserView.swift in Sources */,
+                                A00000000000000000000009 /* WebViewContainer.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		127D266F3C5EED2B12BDBBD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				INFOPLIST_FILE = WebsmithApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+                                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                                SDKROOT = iphoneos;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                VALIDATE_PRODUCT = YES;
+                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                        };
+                        name = Release;
+                };
+		16E9D1FA8753939C78B7267A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		5A6135119B09FA43D09A6A9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				INFOPLIST_FILE = WebsmithApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+                                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                                SDKROOT = iphoneos;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                        };
+                        name = Debug;
+                };
+		D49C23EC5F749D3D9F74E0C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		371D30430BB5B4E0053F5806 /* Build configuration list for PBXProject "Websmith" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D49C23EC5F749D3D9F74E0C2 /* Debug */,
+				16E9D1FA8753939C78B7267A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB9844A34D73CF8616B93873 /* Build configuration list for PBXNativeTarget "Websmith" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				127D266F3C5EED2B12BDBBD8 /* Release */,
+				5A6135119B09FA43D09A6A9C /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C6DF0DE26DCECAEBA37ACFC7 /* Project object */;
+}
