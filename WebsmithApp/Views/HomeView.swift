@@ -35,7 +35,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "play.circle")
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(.plain)
 
                     Button {
                         if let data = try? site.exportJSON() {
@@ -46,12 +46,12 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(.plain)
 
                     NavigationLink(destination: EditWebsiteView(configuration: site)) {
                         Image(systemName: "gearshape")
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(.plain)
                 }
             }
             .onDelete { indexSet in
