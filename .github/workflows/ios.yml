@@ -1,25 +1,23 @@
-name: iOS starter workflow
+# .github/workflows/ios-unsigned.yml
+name: iOS unsigned IPA (Feather-ready)
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build IPA (ad-hoc)
     runs-on: macos-latest
-
     env:
       SCHEME: Websmith
       PROJECT: Websmith.xcodeproj
+      IPA_NAME: Websmith.ipa
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Xcode version
         run: xcodebuild -version
 
-      - name: Archive (device build, no signing)
+      - name: Archive (device, no signing)
         run: |
           set -euo pipefail
           xcodebuild \
@@ -29,42 +27,59 @@ jobs:
             -destination "generic/platform=iOS" \
             -archivePath build/App.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_IDENTITY= \
+            VALIDATE_PRODUCT=NO \
             archive
 
-      - name: Package .app into Payload
+      - name: Create Payload
         run: |
           set -euo pipefail
-          APP_PATH="build/App.xcarchive/Products/Applications"
-          APP="$(/bin/ls "$APP_PATH" | head -n1)"
+          APP_ROOT="build/App.xcarchive/Products/Applications"
+          APP_NAME="$(ls "$APP_ROOT" | head -n1)"
           mkdir -p Payload
-          cp -R "$APP_PATH/$APP" "Payload/$APP"
+          cp -R "$APP_ROOT/$APP_NAME" "Payload/$APP_NAME"
+          echo "APP_PATH=Payload/$APP_NAME" >> $GITHUB_ENV
 
-      - name: Ad-hoc sign (makes it re-signable for Feather)
+      - name: Ensure Info.plist keys
         run: |
           set -euo pipefail
-          APP_DIR="$(/bin/ls Payload | head -n1)"
-          APP_PATH="Payload/$APP_DIR"
-          # Sign nested content first
-          while IFS= read -r -d '' ITEM; do
-            /usr/bin/codesign --force -s - --timestamp=none "$ITEM"
-          done < <(find "$APP_PATH" -type d \( -name "*.framework" -o -name "*.appex" \) -print0)
-          while IFS= read -r -d '' BIN; do
-            /usr/bin/codesign --force -s - --timestamp=none "$BIN" || true
-          done < <(find "$APP_PATH" -type f \( -name "*.dylib" -o -perm +111 \) -print0)
-          # Sign the app bundle
-          /usr/bin/codesign --force -s - --timestamp=none "$APP_PATH"
-          /usr/bin/codesign -vv "$APP_PATH"
+          PLIST="$APP_PATH/Info.plist"
+          # CFBundleExecutable (fallback: detect Mach-O in app root)
+          if ! /usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$PLIST" >/dev/null 2>&1; then
+            EXEC_NAME="$(find "$APP_PATH" -maxdepth 1 -type f -perm -111 \
+              -exec file {} \; | grep -i 'Mach-O' | head -n1 | awk -F: '{print $1}' | xargs -I{} basename {})"
+            [ -n "$EXEC_NAME" ] || { echo "No executable found"; exit 1; }
+            /usr/libexec/PlistBuddy -c "Add :CFBundleExecutable string $EXEC_NAME" "$PLIST" 2>/dev/null || \
+            /usr/libexec/PlistBuddy -c "Set :CFBundleExecutable $EXEC_NAME" "$PLIST"
+          fi
+          # Versions (Feather expects them to exist)
+          /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string ${GITHUB_RUN_NUMBER:-1}" "$PLIST" 2>/dev/null || true
+          /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string 1.0" "$PLIST" 2>/dev/null || true
+          # Must have a bundle id
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$PLIST" >/dev/null
 
-      - name: Create IPA
+      - name: Confirm device binary (arm64)
         run: |
           set -euo pipefail
-          /usr/bin/zip -qry Websmith.ipa Payload
+          BIN="$APP_PATH/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Info.plist")"
+          file "$BIN" | grep -qi 'arm64'
+
+      - name: Strip any signatures/profiles
+        run: |
+          set -euo pipefail
+          find "$APP_PATH" -type d -name "_CodeSignature" -exec rm -rf {} + || true
+          find "$APP_PATH" -type f -name "embedded.mobileprovision" -delete || true
+
+      - name: Zip IPA (unsigned)
+        run: |
+          set -euo pipefail
+          /usr/bin/zip -qry "$IPA_NAME" Payload
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Websmith.ipa
-          path: Websmith.ipa
-          if-no-files-found: error
-          retention-days: 7
+          name: Websmith-unsigned
+          path: ${{ env.IPA_NAME }}
           overwrite: true
+          retention-days: 7
