@@ -139,7 +139,7 @@ struct EditWebsiteView: View {
         }
         .fileImporter(
             isPresented: $showScriptImporter,
-            allowedContentTypes: [.javascript]
+            allowedContentTypes: [UTType(filenameExtension: "js") ?? .data]
         ) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)

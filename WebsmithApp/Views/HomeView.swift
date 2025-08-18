@@ -6,65 +6,86 @@ struct HomeView: View {
     @State private var shareData: Data?
     @State private var shareFileName = ""
     @State private var fullscreenSite: WebsiteConfiguration?
+    @State private var selectedSite: WebsiteConfiguration?
+    @State private var navigateActive = false
 
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(store.websites) { site in
-                    HStack {
-                        Text(site.nickname)
-                        Spacer()
+        Group {
+            if #available(iOS 16, *) {
+                NavigationStack { content }
+            } else {
+                NavigationView { content }
+            }
+        }
+    }
+
+    private var content: some View {
+        List {
+            ForEach(store.websites) { site in
+                HStack {
+                    Text(site.nickname)
+                    Spacer()
+                    Button {
                         if site.hideNavigation {
-                            Button {
-                                fullscreenSite = site
-                            } label: {
-                                Image(systemName: "play.circle")
-                            }
+                            fullscreenSite = site
                         } else {
-                            NavigationLink(destination: WebBrowserView(configuration: site)) {
-                                Image(systemName: "play.circle")
-                            }
+                            selectedSite = site
+                            navigateActive = true
                         }
-                        Button {
-                            if let data = try? site.exportJSON() {
-                                shareData = data
-                                shareFileName = "\(site.nickname).json"
-                                showShare = true
-                            }
-                        } label: {
-                            Image(systemName: "square.and.arrow.up")
+                    } label: {
+                        Image(systemName: "play.circle")
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        if let data = try? site.exportJSON() {
+                            shareData = data
+                            shareFileName = "\(site.nickname).json"
+                            showShare = true
                         }
-                        NavigationLink(destination: EditWebsiteView(configuration: site)) {
-                            Image(systemName: "gearshape")
-                        }
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
                     }
-                }
-                .onDelete { indexSet in
-                    indexSet.map { store.websites[$0] }.forEach { store.remove($0) }
-                }
-            }
-            .navigationTitle("Websmith")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EditWebsiteView()) {
-                        Image(systemName: "plus")
+                    .buttonStyle(.plain)
+
+                    NavigationLink(destination: EditWebsiteView(configuration: site)) {
+                        Image(systemName: "gearshape")
                     }
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gear")
-                    }
+                    .buttonStyle(.plain)
                 }
             }
-            .sheet(isPresented: $showShare) {
-                if let data = shareData {
-                    ShareSheet(data: data, fileName: shareFileName)
+            .onDelete { indexSet in
+                indexSet.map { store.websites[$0] }.forEach { store.remove($0) }
+            }
+        }
+        .navigationTitle("Websmith")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: EditWebsiteView()) {
+                    Image(systemName: "plus")
                 }
             }
-            .fullScreenCover(item: $fullscreenSite) { site in
-                WebBrowserView(configuration: site)
-                    .interactiveDismissDisabled()
+            ToolbarItem(placement: .navigationBarLeading) {
+                NavigationLink(destination: SettingsView()) {
+                    Image(systemName: "gear")
+                }
             }
+        }
+        .background(
+            NavigationLink(
+                destination: WebBrowserView(configuration: selectedSite ?? WebsiteConfiguration(url: "", nickname: "")),
+                isActive: $navigateActive
+            ) { EmptyView() }
+            .hidden()
+        )
+        .sheet(isPresented: $showShare) {
+            if let data = shareData {
+                ShareSheet(data: data, fileName: shareFileName)
+            }
+        }
+        .fullScreenCover(item: $fullscreenSite) { site in
+            WebBrowserView(configuration: site)
+                .interactiveDismissDisabled()
         }
     }
 }
