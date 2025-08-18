@@ -44,6 +44,7 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.customStylesheets.remove(atOffsets: $0) }
+
                 Button {
                     showStyleImporter = true
                 } label: {
@@ -57,6 +58,7 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.userScripts.remove(atOffsets: $0) }
+
                 Button {
                     showScriptImporter = true
                 } label: {
@@ -70,6 +72,7 @@ struct EditWebsiteView: View {
                     Text(entry)
                 }
                 .onDelete { config.urlBlacklist.remove(atOffsets: $0) }
+
                 HStack {
                     TextField("Add entry", text: $newBlacklistEntry)
                     Button("Add") {
@@ -85,12 +88,14 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.adblockLists.remove(atOffsets: $0) }
+
                 Button {
                     showAdblockImporter = true
                 } label: {
                     Label("Import List", systemImage: "plus")
                 }
                 .buttonStyle(.plain)
+
                 HStack {
                     TextField("Import from URL", text: $newAdblockURL)
                     Button("Add") { addAdblockURL() }
@@ -100,15 +105,9 @@ struct EditWebsiteView: View {
         .navigationTitle("Edit Site")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button { showShare = true } label: {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                Button { showImport = true } label: {
-                    Image(systemName: "square.and.arrow.down")
-                }
-                Button(role: .destructive) { showDeleteConfirm = true } label: {
-                    Image(systemName: "trash")
-                }
+                Button { showShare = true } label: { Image(systemName: "square.and.arrow.up") }
+                Button { showImport = true } label: { Image(systemName: "square.and.arrow.down") }
+                Button(role: .destructive) { showDeleteConfirm = true } label: { Image(systemName: "trash") }
             }
         }
         .alert("Delete this site?", isPresented: $showDeleteConfirm) {
@@ -127,37 +126,25 @@ struct EditWebsiteView: View {
             }
         }
         .fileImporter(isPresented: $showImport, allowedContentTypes: [.json]) { result in
-            switch result {
-            case .success(let url):
-                if let data = try? Data(contentsOf: url), let imported = try? WebsiteConfiguration.importJSON(data) {
-                    config = imported
-                }
-            case .failure:
-                break
+            if case .success(let url) = result,
+               let data = try? Data(contentsOf: url),
+               let imported = try? WebsiteConfiguration.importJSON(data) {
+                config = imported
             }
         }
-        .fileImporter(
-            isPresented: $showStyleImporter,
-            allowedContentTypes: [.data]
-        ) { result in
+        .fileImporter(isPresented: $showStyleImporter, allowedContentTypes: [.data]) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)
                 config.customStylesheets.append(dest)
             }
         }
-        .fileImporter(
-            isPresented: $showScriptImporter,
-            allowedContentTypes: [.data]
-        ) { result in
+        .fileImporter(isPresented: $showScriptImporter, allowedContentTypes: [.data]) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)
                 config.userScripts.append(dest)
             }
         }
-        .fileImporter(
-            isPresented: $showAdblockImporter,
-            allowedContentTypes: [.plainText]
-        ) { result in
+        .fileImporter(isPresented: $showAdblockImporter, allowedContentTypes: [.plainText]) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)
                 config.adblockLists.append(dest)
@@ -170,8 +157,24 @@ struct EditWebsiteView: View {
         }
     }
 
+    // keep ONE convenience wrapper…
+    private func saveFile(_ url: URL) -> URL {
+        saveFile(url, named: url.lastPathComponent)
+    }
+
+    // …and ONE core helper
+    private func saveFile(_ url: URL, named name: String) -> URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let dest = docs.appendingPathComponent(name)
+        if FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.removeItem(at: dest)
+        }
+        try? FileManager.default.copyItem(at: url, to: dest)
+        return dest
+    }
+
     private func addAdblockURL() {
-        guard let url = URL(string: newAdblockURL), !newAdblockURL.isEmpty else { return }
+        guard !newAdblockURL.isEmpty, let url = URL(string: newAdblockURL) else { return }
         Task {
             do {
                 let (temp, _) = try await URLSession.shared.download(from: url)
@@ -182,15 +185,5 @@ struct EditWebsiteView: View {
                 // ignore failures
             }
         }
-    }
-
-    private func saveFile(_ url: URL) -> URL {
-        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let dest = docs.appendingPathComponent(url.lastPathComponent)
-        if FileManager.default.fileExists(atPath: dest.path) {
-            try? FileManager.default.removeItem(at: dest)
-        }
-        try? FileManager.default.copyItem(at: url, to: dest)
-        return dest
     }
 }
