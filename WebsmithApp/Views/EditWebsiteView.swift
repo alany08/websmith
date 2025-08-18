@@ -170,20 +170,6 @@ struct EditWebsiteView: View {
         }
     }
 
-    private func saveFile(_ url: URL) -> URL {
-        saveFile(url, named: url.lastPathComponent)
-    }
-
-    private func saveFile(_ url: URL, named name: String) -> URL {
-        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let dest = docs.appendingPathComponent(name)
-        if FileManager.default.fileExists(atPath: dest.path) {
-            try? FileManager.default.removeItem(at: dest)
-        }
-        try? FileManager.default.copyItem(at: url, to: dest)
-        return dest
-    }
-
     private func addAdblockURL() {
         guard let url = URL(string: newAdblockURL), !newAdblockURL.isEmpty else { return }
         Task {
