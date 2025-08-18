@@ -8,8 +8,12 @@ struct WebViewContainer: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
+        if !configuration.allowCookies {
+            config.websiteDataStore = .nonPersistent()
+        }
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
+        webView.allowsBackForwardNavigationGestures = configuration.allowBackForwardGestures
         applyCustomizations(to: webView)
         if let url = URL(string: configuration.url) {
             webView.load(URLRequest(url: url))
@@ -42,13 +46,33 @@ struct WebViewContainer: UIViewRepresentable {
 
     class Coordinator: NSObject, WKNavigationDelegate {
         let configuration: WebsiteConfiguration
+        private var blockRules: [String] = []
         init(configuration: WebsiteConfiguration) {
             self.configuration = configuration
+            super.init()
+            loadBlockRules()
+        }
+
+        private func loadBlockRules() {
+            for list in configuration.adblockLists {
+                if let content = try? String(contentsOf: list) {
+                    let lines = content.components(separatedBy: .newlines)
+                    for line in lines {
+                        let trimmed = line.trimmingCharacters(in: .whitespaces)
+                        if trimmed.isEmpty || trimmed.hasPrefix("!") { continue }
+                        blockRules.append(trimmed)
+                    }
+                }
+            }
         }
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let url = navigationAction.request.url?.absoluteString {
                 if !configuration.requestWhitelist.isEmpty && configuration.requestWhitelist.first(where: { url.contains($0) }) == nil {
+                    decisionHandler(.cancel)
+                    return
+                }
+                for rule in blockRules where url.contains(rule) {
                     decisionHandler(.cancel)
                     return
                 }
