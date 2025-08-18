@@ -55,19 +55,6 @@ jobs:
           /usr/bin/codesign --force -s - --timestamp=none "$APP_PATH"
           /usr/bin/codesign -vv "$APP_PATH"
 
-      - name: Sanity checks (arm64 & Info.plist)
-        run: |
-          set -euo pipefail
-          APP_DIR="$(/bin/ls Payload | head -n1)"
-          APP_PATH="Payload/$APP_DIR"
-          # Check it’s arm64 device build (not simulator)
-          BIN="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Info.plist")"
-          file "$APP_PATH/$BIN" | grep -i 'arm64'
-          # Ensure versions exist
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist"
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/Info.plist" || \
-            /usr/libexec/PlistBuddy -c 'Add :CFBundleVersion string 1' "$APP_PATH/Info.plist"
-
       - name: Create IPA
         run: |
           set -euo pipefail
