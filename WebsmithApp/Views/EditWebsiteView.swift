@@ -116,12 +116,18 @@ struct EditWebsiteView: View {
                 break
             }
         }
-        .fileImporter(isPresented: $showStyleImporter, allowedContentTypes: [.css]) { result in
+        .fileImporter(
+            isPresented: $showStyleImporter,
+            allowedContentTypes: [UTType(filenameExtension: "css") ?? .text]
+        ) { result in
             if case .success(let url) = result {
                 config.customStylesheets.append(url)
             }
         }
-        .fileImporter(isPresented: $showScriptImporter, allowedContentTypes: [.javascript]) { result in
+        .fileImporter(
+            isPresented: $showScriptImporter,
+            allowedContentTypes: [UTType(filenameExtension: "js") ?? .text]
+        ) { result in
             if case .success(let url) = result {
                 config.userScripts.append(url)
             }
