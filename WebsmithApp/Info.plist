@@ -5,7 +5,7 @@
     <key>CFBundleName</key>
     <string>Websmith</string>
     <key>CFBundleIdentifier</key>
-    <string>com.example.Websmith</string>
+    <string>com.616c616e.websmith</string>
     <key>UILaunchStoryboardName</key>
     <string></string>
     <key>UISupportedInterfaceOrientations</key>

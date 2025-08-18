@@ -68,7 +68,7 @@ struct WebViewContainer: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let url = navigationAction.request.url?.absoluteString {
-                if !configuration.requestWhitelist.isEmpty && configuration.requestWhitelist.first(where: { url.contains($0) }) == nil {
+                if configuration.urlBlacklist.first(where: { url.contains($0) }) != nil {
                     decisionHandler(.cancel)
                     return
                 }

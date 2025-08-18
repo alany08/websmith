@@ -3,15 +3,16 @@ import UniformTypeIdentifiers
 
 struct EditWebsiteView: View {
     @EnvironmentObject var store: ConfigurationStore
+    @Environment(\.dismiss) private var dismiss
     @State private var config: WebsiteConfiguration
     @State private var showImport = false
     @State private var showShare = false
     @State private var showDeleteConfirm = false
-    @State private var showLeaveWarning = false
     @State private var showStyleImporter = false
     @State private var showScriptImporter = false
     @State private var showAdblockImporter = false
-    @State private var newWhitelistEntry = ""
+    @State private var newBlacklistEntry = ""
+    @State private var isDeleted = false
 
     init(configuration: WebsiteConfiguration? = nil) {
         _config = State(initialValue: configuration ?? WebsiteConfiguration(url: "", nickname: ""))
@@ -26,13 +27,10 @@ struct EditWebsiteView: View {
 
             Section(header: Text("Settings")) {
                 Toggle("Fullscreen", isOn: $config.allowFullscreen)
+                Toggle("Hide Navigation", isOn: $config.hideNavigation)
                 Toggle("Disable Text Selection", isOn: $config.disableTextSelection)
                 Toggle("Allow Cookies", isOn: $config.allowCookies)
                 Toggle("Allow Gestures", isOn: $config.allowBackForwardGestures)
-                Toggle("Show Leave Bar", isOn: $config.showTopBar)
-                    .onChange(of: config.showTopBar) { value in
-                        if !value { showLeaveWarning = true }
-                    }
                 Picker("Orientation", selection: $config.forceOrientation) {
                     ForEach(OrientationOption.allCases, id: \.self) { option in
                         Text(option.rawValue.capitalized).tag(option)
@@ -45,7 +43,11 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.customStylesheets.remove(atOffsets: $0) }
-                Button("Add Stylesheet") { showStyleImporter = true }
+                Button {
+                    showStyleImporter = true
+                } label: {
+                    Label("Add Stylesheet", systemImage: "plus")
+                }
             }
 
             Section(header: Text("User Scripts")) {
@@ -53,20 +55,24 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.userScripts.remove(atOffsets: $0) }
-                Button("Add Script") { showScriptImporter = true }
+                Button {
+                    showScriptImporter = true
+                } label: {
+                    Label("Add Script", systemImage: "plus")
+                }
             }
 
-            Section(header: Text("Request Whitelist")) {
-                ForEach(config.requestWhitelist, id: \.self) { entry in
+            Section(header: Text("URL Blacklist")) {
+                ForEach(config.urlBlacklist, id: \.self) { entry in
                     Text(entry)
                 }
-                .onDelete { config.requestWhitelist.remove(atOffsets: $0) }
+                .onDelete { config.urlBlacklist.remove(atOffsets: $0) }
                 HStack {
-                    TextField("Add entry", text: $newWhitelistEntry)
+                    TextField("Add entry", text: $newBlacklistEntry)
                     Button("Add") {
-                        guard !newWhitelistEntry.isEmpty else { return }
-                        config.requestWhitelist.append(newWhitelistEntry)
-                        newWhitelistEntry = ""
+                        guard !newBlacklistEntry.isEmpty else { return }
+                        config.urlBlacklist.append(newBlacklistEntry)
+                        newBlacklistEntry = ""
                     }
                 }
             }
@@ -76,26 +82,32 @@ struct EditWebsiteView: View {
                     Text(url.lastPathComponent)
                 }
                 .onDelete { config.adblockLists.remove(atOffsets: $0) }
-                Button("Import List") { showAdblockImporter = true }
+                Button {
+                    showAdblockImporter = true
+                } label: {
+                    Label("Import List", systemImage: "plus")
+                }
             }
         }
         .navigationTitle("Edit Site")
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Save") { store.add(config) }
-            }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button("Share") { showShare = true }
-                Button("Import") { showImport = true }
-                Button("Delete", role: .destructive) { showDeleteConfirm = true }
+                Button { showShare = true } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                Button { showImport = true } label: {
+                    Image(systemName: "square.and.arrow.down")
+                }
+                Button(role: .destructive) { showDeleteConfirm = true } label: {
+                    Image(systemName: "trash")
+                }
             }
-        }
-        .alert("Removing the leave bar will require restarting the app to exit.", isPresented: $showLeaveWarning) {
-            Button("OK", role: .cancel) {}
         }
         .alert("Delete this site?", isPresented: $showDeleteConfirm) {
             Button("Delete", role: .destructive) {
                 store.remove(config)
+                isDeleted = true
+                dismiss()
             }
             Button("Cancel", role: .cancel) {}
         }
@@ -118,24 +130,45 @@ struct EditWebsiteView: View {
         }
         .fileImporter(
             isPresented: $showStyleImporter,
-            allowedContentTypes: [UTType(filenameExtension: "css") ?? .text]
+            allowedContentTypes: [UTType(filenameExtension: "css") ?? .data]
         ) { result in
             if case .success(let url) = result {
-                config.customStylesheets.append(url)
+                let dest = saveFile(url)
+                config.customStylesheets.append(dest)
             }
         }
         .fileImporter(
             isPresented: $showScriptImporter,
-            allowedContentTypes: [UTType(filenameExtension: "js") ?? .text]
+            allowedContentTypes: [.javascript]
         ) { result in
             if case .success(let url) = result {
-                config.userScripts.append(url)
+                let dest = saveFile(url)
+                config.userScripts.append(dest)
             }
         }
-        .fileImporter(isPresented: $showAdblockImporter, allowedContentTypes: [.plainText]) { result in
+        .fileImporter(
+            isPresented: $showAdblockImporter,
+            allowedContentTypes: [.plainText]
+        ) { result in
             if case .success(let url) = result {
-                config.adblockLists.append(url)
+                let dest = saveFile(url)
+                config.adblockLists.append(dest)
             }
         }
+        .onDisappear {
+            if !isDeleted {
+                store.addOrUpdate(config)
+            }
+        }
+    }
+
+    private func saveFile(_ url: URL) -> URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let dest = docs.appendingPathComponent(url.lastPathComponent)
+        if FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.removeItem(at: dest)
+        }
+        try? FileManager.default.copyItem(at: url, to: dest)
+        return dest
     }
 }
