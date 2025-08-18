@@ -197,4 +197,14 @@ struct EditWebsiteView: View {
             }
         }
     }
+
+    private func saveFile(_ url: URL) -> URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let dest = docs.appendingPathComponent(url.lastPathComponent)
+        if FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.removeItem(at: dest)
+        }
+        try? FileManager.default.copyItem(at: url, to: dest)
+        return dest
+    }
 }
