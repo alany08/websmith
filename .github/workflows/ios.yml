@@ -5,33 +5,79 @@ on:
 
 jobs:
   build:
-    name: Build IPA
+    name: Build IPA (ad-hoc)
     runs-on: macos-latest
+
+    env:
+      SCHEME: Websmith
+      PROJECT: Websmith.xcodeproj
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Archive unsigned
-        env: { SCHEME: Websmith }
+
+      - name: Xcode version
+        run: xcodebuild -version
+
+      - name: Archive (device build, no signing)
         run: |
+          set -euo pipefail
           xcodebuild \
-            -project Websmith.xcodeproj \
+            -project "$PROJECT" \
             -scheme "$SCHEME" \
             -configuration Release \
             -destination "generic/platform=iOS" \
-            -archivePath build/Websmith.xcarchive \
+            -archivePath build/App.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
             archive
-      - name: Create unsigned .ipa
+
+      - name: Package .app into Payload
         run: |
+          set -euo pipefail
+          APP_PATH="build/App.xcarchive/Products/Applications"
+          APP="$(/bin/ls "$APP_PATH" | head -n1)"
           mkdir -p Payload
-          cp -R "build/Websmith.xcarchive/Products/Applications/"*.app Payload/
-          (cd Payload && /usr/bin/zip -r ../Websmith-unsigned.ipa .)
+          cp -R "$APP_PATH/$APP" "Payload/$APP"
+
+      - name: Ad-hoc sign (makes it re-signable for Feather)
+        run: |
+          set -euo pipefail
+          APP_DIR="$(/bin/ls Payload | head -n1)"
+          APP_PATH="Payload/$APP_DIR"
+          # Sign nested content first
+          while IFS= read -r -d '' ITEM; do
+            /usr/bin/codesign --force -s - --timestamp=none "$ITEM"
+          done < <(find "$APP_PATH" -type d \( -name "*.framework" -o -name "*.appex" \) -print0)
+          while IFS= read -r -d '' BIN; do
+            /usr/bin/codesign --force -s - --timestamp=none "$BIN" || true
+          done < <(find "$APP_PATH" -type f \( -name "*.dylib" -o -perm +111 \) -print0)
+          # Sign the app bundle
+          /usr/bin/codesign --force -s - --timestamp=none "$APP_PATH"
+          /usr/bin/codesign -vv "$APP_PATH"
+
+      - name: Sanity checks (arm64 & Info.plist)
+        run: |
+          set -euo pipefail
+          APP_DIR="$(/bin/ls Payload | head -n1)"
+          APP_PATH="Payload/$APP_DIR"
+          # Check it’s arm64 device build (not simulator)
+          BIN="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Info.plist")"
+          file "$APP_PATH/$BIN" | grep -i 'arm64'
+          # Ensure versions exist
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP_PATH/Info.plist" || \
+            /usr/libexec/PlistBuddy -c 'Add :CFBundleVersion string 1' "$APP_PATH/Info.plist"
+
+      - name: Create IPA
+        run: |
+          set -euo pipefail
+          /usr/bin/zip -qry Websmith.ipa Payload
+
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: app.ipa
-          path: Websmith-unsigned.ipa
+          name: Websmith.ipa
+          path: Websmith.ipa
           if-no-files-found: error
           retention-days: 7
           overwrite: true
