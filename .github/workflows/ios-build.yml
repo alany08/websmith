@@ -1,21 +1,21 @@
 name: iOS Build
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Build
+      - uses: actions/checkout@v3
+      - name: Build IPA
         run: |
-          xcodebuild -project Websmith.xcodeproj -scheme Websmith -configuration Release -sdk iphoneos -archivePath build/Websmith.xcarchive CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive
-          mkdir -p build/Payload
-          cp -R build/Websmith.xcarchive/Products/Applications/Websmith.app build/Payload/
-          cd build && zip -r Websmith.ipa Payload
-      - name: Upload IPA
-        uses: actions/upload-artifact@v4
+          xcodebuild -project Websmith.xcodeproj -scheme WebsmithApp -sdk iphoneos -configuration Release -archivePath build/Websmith.xcarchive archive
+          xcodebuild -exportArchive -archivePath build/Websmith.xcarchive -exportPath build -exportOptionsPlist ExportOptions.plist
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: Websmith
-          path: build/Websmith.ipa
+          name: WebsmithApp.ipa
+          path: build/*.ipa

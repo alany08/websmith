@@ -14,6 +14,8 @@ struct WebsiteConfiguration: Identifiable, Codable, Equatable {
     var disableTextSelection: Bool = false
     var forceOrientation: OrientationOption = .system
     var showTopBar: Bool = true
+    var allowCookies: Bool = true
+    var allowBackForwardGestures: Bool = true
     var customStylesheets: [URL] = []
     var userScripts: [URL] = []
     var requestWhitelist: [String] = []

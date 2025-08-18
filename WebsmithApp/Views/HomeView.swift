@@ -7,10 +7,16 @@ struct HomeView: View {
         NavigationView {
             List {
                 ForEach(store.websites) { site in
-                    NavigationLink(destination: WebBrowserView(configuration: site)) {
-                        HStack {
-                            Image(systemName: "globe")
-                            Text(site.nickname)
+                    HStack {
+                        NavigationLink(destination: WebBrowserView(configuration: site)) {
+                            HStack {
+                                Image(systemName: "globe")
+                                Text(site.nickname)
+                            }
+                        }
+                        Spacer()
+                        NavigationLink(destination: EditWebsiteView(configuration: site)) {
+                            Image(systemName: "gearshape")
                         }
                     }
                 }
@@ -23,6 +29,11 @@ struct HomeView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: EditWebsiteView()) {
                         Image(systemName: "plus")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(systemName: "gear")
                     }
                 }
             }
