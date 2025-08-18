@@ -197,7 +197,7 @@
                                 SDKROOT = iphoneos;
                                 TARGETED_DEVICE_FAMILY = "1,2";
                                 VALIDATE_PRODUCT = YES;
-                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                                PRODUCT_BUNDLE_IDENTIFIER = com.616c616e.websmith;
                         };
                         name = Release;
                 };
@@ -266,7 +266,7 @@
                                 LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
                                 SDKROOT = iphoneos;
                                 TARGETED_DEVICE_FAMILY = "1,2";
-                                PRODUCT_BUNDLE_IDENTIFIER = com.example.Websmith;
+                                PRODUCT_BUNDLE_IDENTIFIER = com.616c616e.websmith;
                         };
                         name = Debug;
                 };
