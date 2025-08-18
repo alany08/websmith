@@ -16,7 +16,9 @@
                 A00000000000000000000006 /* EditWebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404EB8F536823F8D56B14159 /* EditWebsiteView.swift */; };
                 A00000000000000000000007 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5521C629DF0F1F9D84E634 /* HomeView.swift */; };
                 A00000000000000000000008 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */; };
-                A00000000000000000000009 /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659E29552A2B1A1B08C85330 /* WebViewContainer.swift */; };
+               A00000000000000000000009 /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659E29552A2B1A1B08C85330 /* WebViewContainer.swift */; };
+               A00000000000000000000010 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9313EFA1A2B3C4D5E6F7081 /* SettingsView.swift */; };
+               A00000000000000000000011 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9313EFA1A2B3C4D5E6F7082 /* ShareSheet.swift */; };
 
 /* End PBXBuildFile section */
 
@@ -32,7 +34,9 @@
 		8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebBrowserView.swift; path = WebsmithApp/Views/WebBrowserView.swift; sourceTree = "<group>"; };
 		8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConfigurationStore.swift; path = WebsmithApp/Models/ConfigurationStore.swift; sourceTree = "<group>"; };
 		C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebsiteConfiguration.swift; path = WebsmithApp/Models/WebsiteConfiguration.swift; sourceTree = "<group>"; };
-		FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = WebsmithApp/AppDelegate.swift; sourceTree = "<group>"; };
+               FF9F978D1EC48D381ED2CAD6 /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = WebsmithApp/AppDelegate.swift; sourceTree = "<group>"; };
+               D9313EFA1A2B3C4D5E6F7081 /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = WebsmithApp/Views/SettingsView.swift; sourceTree = "<group>"; };
+               D9313EFA1A2B3C4D5E6F7082 /* ShareSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ShareSheet.swift; path = WebsmithApp/Views/ShareSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,13 +66,15 @@
 				8E4E244F17F4955A07698C5C /* ConfigurationStore.swift */,
 				672AE55F1EFB00699285017B /* OrientationManager.swift */,
 				C023EC2EB9BCF390AF45CDAE /* WebsiteConfiguration.swift */,
-				404EB8F536823F8D56B14159 /* EditWebsiteView.swift */,
-				4A5521C629DF0F1F9D84E634 /* HomeView.swift */,
-				8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */,
-				659E29552A2B1A1B08C85330 /* WebViewContainer.swift */,
-				11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */,
-				6124A3FAEB9A4F2E84CE2B2F /* Info.plist */,
-			);
+                               404EB8F536823F8D56B14159 /* EditWebsiteView.swift */,
+                               4A5521C629DF0F1F9D84E634 /* HomeView.swift */,
+                               D9313EFA1A2B3C4D5E6F7081 /* SettingsView.swift */,
+                               D9313EFA1A2B3C4D5E6F7082 /* ShareSheet.swift */,
+                               8E1ADA6E1D7D38B4349CA38D /* WebBrowserView.swift */,
+                               659E29552A2B1A1B08C85330 /* WebViewContainer.swift */,
+                               11A411F19803F8D8AF7D2BCD /* WebsmithApp.swift */,
+                               6124A3FAEB9A4F2E84CE2B2F /* Info.plist */,
+                       );
 			name = WebsmithApp;
 			sourceTree = "<group>";
 		};
@@ -167,10 +173,12 @@
                                 A00000000000000000000004 /* OrientationManager.swift in Sources */,
                                 A00000000000000000000005 /* WebsiteConfiguration.swift in Sources */,
                                 A00000000000000000000006 /* EditWebsiteView.swift in Sources */,
-                                A00000000000000000000007 /* HomeView.swift in Sources */,
-                                A00000000000000000000008 /* WebBrowserView.swift in Sources */,
-                                A00000000000000000000009 /* WebViewContainer.swift in Sources */,
-                        );
+                               A00000000000000000000007 /* HomeView.swift in Sources */,
+                               A00000000000000000000008 /* WebBrowserView.swift in Sources */,
+                               A00000000000000000000009 /* WebViewContainer.swift in Sources */,
+                               A00000000000000000000010 /* SettingsView.swift in Sources */,
+                               A00000000000000000000011 /* ShareSheet.swift in Sources */,
+                       );
                         runOnlyForDeploymentPostprocessing = 0;
                 };
 
