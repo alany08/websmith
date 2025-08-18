@@ -26,18 +26,6 @@ struct HomeView: View {
                     Text(site.nickname)
                     Spacer()
                     Button {
-                        if site.hideNavigation {
-                            fullscreenSite = site
-                        } else {
-                            selectedSite = site
-                            navigateActive = true
-                        }
-                    } label: {
-                        Image(systemName: "play.circle")
-                    }
-                    .buttonStyle(.plain)
-
-                    Button {
                         if let data = try? site.exportJSON() {
                             shareData = data
                             shareFileName = "\(site.nickname).json"
@@ -46,12 +34,21 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.borderless)
 
                     NavigationLink(destination: EditWebsiteView(configuration: site)) {
                         Image(systemName: "gearshape")
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.borderless)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if site.hideNavigation {
+                        fullscreenSite = site
+                    } else {
+                        selectedSite = site
+                        navigateActive = true
+                    }
                 }
             }
             .onDelete { indexSet in

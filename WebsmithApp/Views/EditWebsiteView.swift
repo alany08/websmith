@@ -12,6 +12,7 @@ struct EditWebsiteView: View {
     @State private var showScriptImporter = false
     @State private var showAdblockImporter = false
     @State private var newBlacklistEntry = ""
+    @State private var newAdblockURL = ""
     @State private var isDeleted = false
 
     init(configuration: WebsiteConfiguration? = nil) {
@@ -48,6 +49,7 @@ struct EditWebsiteView: View {
                 } label: {
                     Label("Add Stylesheet", systemImage: "plus")
                 }
+                .buttonStyle(.plain)
             }
 
             Section(header: Text("User Scripts")) {
@@ -60,6 +62,7 @@ struct EditWebsiteView: View {
                 } label: {
                     Label("Add Script", systemImage: "plus")
                 }
+                .buttonStyle(.plain)
             }
 
             Section(header: Text("URL Blacklist")) {
@@ -86,6 +89,11 @@ struct EditWebsiteView: View {
                     showAdblockImporter = true
                 } label: {
                     Label("Import List", systemImage: "plus")
+                }
+                .buttonStyle(.plain)
+                HStack {
+                    TextField("Import from URL", text: $newAdblockURL)
+                    Button("Add") { addAdblockURL() }
                 }
             }
         }
@@ -130,7 +138,7 @@ struct EditWebsiteView: View {
         }
         .fileImporter(
             isPresented: $showStyleImporter,
-            allowedContentTypes: [UTType(filenameExtension: "css") ?? .data]
+            allowedContentTypes: [.data]
         ) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)
@@ -139,7 +147,7 @@ struct EditWebsiteView: View {
         }
         .fileImporter(
             isPresented: $showScriptImporter,
-            allowedContentTypes: [UTType(filenameExtension: "js") ?? .data]
+            allowedContentTypes: [.data]
         ) { result in
             if case .success(let url) = result {
                 let dest = saveFile(url)
@@ -158,6 +166,34 @@ struct EditWebsiteView: View {
         .onDisappear {
             if !isDeleted {
                 store.addOrUpdate(config)
+            }
+        }
+    }
+
+    private func saveFile(_ url: URL) -> URL {
+        saveFile(url, named: url.lastPathComponent)
+    }
+
+    private func saveFile(_ url: URL, named name: String) -> URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let dest = docs.appendingPathComponent(name)
+        if FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.removeItem(at: dest)
+        }
+        try? FileManager.default.copyItem(at: url, to: dest)
+        return dest
+    }
+
+    private func addAdblockURL() {
+        guard let url = URL(string: newAdblockURL), !newAdblockURL.isEmpty else { return }
+        Task {
+            do {
+                let (temp, _) = try await URLSession.shared.download(from: url)
+                let dest = saveFile(temp, named: url.lastPathComponent)
+                config.adblockLists.append(dest)
+                newAdblockURL = ""
+            } catch {
+                // ignore failures
             }
         }
     }
