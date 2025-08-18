@@ -2,19 +2,38 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var store: ConfigurationStore
+    @State private var showShare = false
+    @State private var shareData: Data?
+    @State private var shareFileName = ""
+    @State private var fullscreenSite: WebsiteConfiguration?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(store.websites) { site in
                     HStack {
-                        NavigationLink(destination: WebBrowserView(configuration: site)) {
-                            HStack {
-                                Image(systemName: "globe")
-                                Text(site.nickname)
+                        Text(site.nickname)
+                        Spacer()
+                        if site.hideNavigation {
+                            Button {
+                                fullscreenSite = site
+                            } label: {
+                                Image(systemName: "play.circle")
+                            }
+                        } else {
+                            NavigationLink(destination: WebBrowserView(configuration: site)) {
+                                Image(systemName: "play.circle")
                             }
                         }
-                        Spacer()
+                        Button {
+                            if let data = try? site.exportJSON() {
+                                shareData = data
+                                shareFileName = "\(site.nickname).json"
+                                showShare = true
+                            }
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                        }
                         NavigationLink(destination: EditWebsiteView(configuration: site)) {
                             Image(systemName: "gearshape")
                         }
@@ -36,6 +55,15 @@ struct HomeView: View {
                         Image(systemName: "gear")
                     }
                 }
+            }
+            .sheet(isPresented: $showShare) {
+                if let data = shareData {
+                    ShareSheet(data: data, fileName: shareFileName)
+                }
+            }
+            .fullScreenCover(item: $fullscreenSite) { site in
+                WebBrowserView(configuration: site)
+                    .interactiveDismissDisabled()
             }
         }
     }
